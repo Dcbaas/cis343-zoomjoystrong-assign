@@ -3,10 +3,7 @@
   #include <stdlib.h>
   #include <errno.h>
   #include "zoomjoystrong.h"
-  #include "file_utils.h"
 %}
-
-void yyerror(const char* err);
 
 %union{
   int iVal;
@@ -35,19 +32,19 @@ statement:  line
          |  rectangle
          |  set_color
          ;
-line: LINE INT INT INT INT                    { line($2, $3, $4, $5); }
-    | LINE FLOAT FLOAT FLOAT FLOAT            { line($2, $3, $4, $5); }
+line: LINE INT INT INT INT                    { printf("line cmd"); }
+    | LINE FLOAT FLOAT FLOAT FLOAT            { printf("line cmd"); }
     ;
-point:  POINT INT INT                         { point($2, $3); }
-     |  POINT FLOAT FLOAT                     { point($2, $3); }
+point:  POINT INT INT                         { printf("point cmd"); }
+     |  POINT FLOAT FLOAT                     { printf("point cmd"); }
      ;
-circle: CIRCLE INT INT INT                    { circle($2, $3, $4); }
-      | CIRCLE FLOAT FLOAT FLOAT              { circle($2, $3, $4); }
+circle: CIRCLE INT INT INT                    { printf("circle cmd"); }
+      | CIRCLE FLOAT FLOAT FLOAT              { printf("circle cmd"); }
       ;
-rectangle:  RECTANGLE INT INT INT INT         { rectangle($2, $3, $4, $5); }
-         |  RECTANGLE FLOAT FLOAT FLOAT FLOAT { rectangle($2, $3, $4, $5); }
+rectangle:  RECTANGLE INT INT INT INT         { printf("color cmd"); }
+         |  RECTANGLE FLOAT FLOAT FLOAT FLOAT { printf("color cmd"); }
          ;
-set_color:  SET_COLOR INT INT INT             { set_color($2, $3, $4); }
+set_color:  SET_COLOR INT INT INT             {  }
 
 %%
 
@@ -55,10 +52,5 @@ set_color:  SET_COLOR INT INT INT             { set_color($2, $3, $4); }
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
-  setup();
-  yylex();
   yyparse();
-  getc(stdin);
-  quit()
-
 }

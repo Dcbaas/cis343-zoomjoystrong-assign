@@ -126,7 +126,7 @@ typedef union YYSTYPE
   float fVal;
 }
 /* Line 193 of yacc.c.  */
-#line 130 "y.tab.c"
+#line 130 "zoomjoystrong.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -139,7 +139,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 143 "y.tab.c"
+#line 143 "zoomjoystrong.tab.c"
 
 #ifdef short
 # undef short
@@ -1352,52 +1352,52 @@ yyreduce:
     {
         case 10:
 #line 35 "zoomjoystrong.y"
-    { printf("line cmd"); }
+    { printf("line cmd"); ;}
     break;
 
   case 11:
 #line 36 "zoomjoystrong.y"
-    { printf("line cmd"); }
+    { printf("line cmd"); ;}
     break;
 
   case 12:
 #line 38 "zoomjoystrong.y"
-    { printf("point cmd"); }
+    { printf("point cmd"); ;}
     break;
 
   case 13:
 #line 39 "zoomjoystrong.y"
-    { printf("point cmd"); }
+    { printf("point cmd"); ;}
     break;
 
   case 14:
 #line 41 "zoomjoystrong.y"
-    { printf("circle cmd"); }
+    { printf("circle cmd"); ;}
     break;
 
   case 15:
 #line 42 "zoomjoystrong.y"
-    { printf("circle cmd"); }
+    { printf("circle cmd"); ;}
     break;
 
   case 16:
 #line 44 "zoomjoystrong.y"
-    { printf("color cmd"); }
+    { printf("color cmd"); ;}
     break;
 
   case 17:
 #line 45 "zoomjoystrong.y"
-    { printf("color cmd"); }
+    { printf("color cmd"); ;}
     break;
 
   case 18:
 #line 47 "zoomjoystrong.y"
-    {  }
+    {  ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1401 "y.tab.c"
+#line 1401 "zoomjoystrong.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

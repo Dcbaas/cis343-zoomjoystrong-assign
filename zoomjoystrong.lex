@@ -1,6 +1,7 @@
 %{
   #include <stdio.h>
   #include <string.h>
+  #include "zoomjoystrong.tab.h"
   void white_space(char* lex);
 %}
 
@@ -15,7 +16,7 @@
 (RECTANGLE|rectangle)       { return RECTANGLE; }
 (SET_COLOR|set_color)       { return SET_COLOR; }
 [0-9]+                      { return INT; }
-[0-9]+\.[0-9]+              { return FLOAT}
+[0-9]+\.[0-9]+              { return FLOAT; }
 -[0-9]                      { printf("ERROR: NEGETIVE NUMBER ON LINE %d\n", yylineno); }
 [\n|\t| ]+                 ; 
 .                           { printf("ERROR: INVALID SYNTAX AT LINE %d\n", yylineno); }
