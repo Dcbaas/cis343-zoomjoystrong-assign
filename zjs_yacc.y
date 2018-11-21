@@ -47,9 +47,11 @@ rectangle:  RECTANGLE INT INT INT INT         { rectangle($2, $3, $4, $5); }
          ;
 set_color:  SET_COLOR INT INT INT             { set_color($2, $3, $4); }
 
-
-
-
-
-
 %%
+
+//I was unsure if the main function was supposed to go here or in the lex file. I checked 
+//Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
+//immediatly. I don't however follow strictly what he put in the main.
+int main(int argc, char** argv){
+
+}
