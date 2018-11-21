@@ -1,7 +1,9 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
+  #include <errno.h>
   #include "zoomjoystrong.h"
+  #include "file_utils.h"
 %}
 
 void yyerror(const char* err);
@@ -53,5 +55,10 @@ set_color:  SET_COLOR INT INT INT             { set_color($2, $3, $4); }
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
+  setup();
+  yylex();
+  yyparse();
+  getc(stdin);
+  quit()
 
 }
