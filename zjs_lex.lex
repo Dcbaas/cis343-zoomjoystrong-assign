@@ -7,15 +7,15 @@
 %option yylineno
 
 %%
-(END)                       { printf("END\n"); }
-;                           { printf("END_STATEMENT\n"); } 
-(POINT|point)               { printf("POINT\n"); }
-(LINE|line)                 { printf("LINE\n"); }
-(CIRCLE|circle)             { printf("CIRCLE\n"); }
-(RECTANGLE|rectangle)       { printf("RECTANGLE\n"); }
-(SET_COLOR|set_color)       { printf("SET_COLOR\n"); }
-[0-9]+                      { printf("INT %s\n", yytext); }
-[0-9]+\.[0-9]+              { printf("FLOAT %s\n", yytext); }
+(END)                       { return END; }
+;                           { return END_STATEMENT; } 
+(POINT|point)               { return POINT; }
+(LINE|line)                 { return LINE; }
+(CIRCLE|circle)             { return CIRCLE; }
+(RECTANGLE|rectangle)       { return RECTANGLE; }
+(SET_COLOR|set_color)       { return SET_COLOR; }
+[0-9]+                      { return INT; }
+[0-9]+\.[0-9]+              { return FLOAT}
 -[0-9]                      { printf("ERROR: NEGETIVE NUMBER ON LINE %d\n", yylineno); }
 [\n|\t| ]+                 ; 
 .                           { printf("ERROR: INVALID SYNTAX AT LINE %d\n", yylineno); }
