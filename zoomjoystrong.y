@@ -3,6 +3,9 @@
   #include <stdlib.h>
   #include <errno.h>
   #include "zoomjoystrong.h"
+  void yyerror(const char* err);
+  extern int yylex();
+  extern int yyparse();
 %}
 
 %union{
@@ -53,4 +56,8 @@ set_color:  SET_COLOR INT INT INT             {  }
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
   yyparse();
+  
+}
+void yyerror(const char* err){
+  fprintf(stderr, "ERROR! %s\n", err);
 }

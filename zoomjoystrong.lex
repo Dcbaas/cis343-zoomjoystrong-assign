@@ -2,6 +2,7 @@
   #include <stdio.h>
   #include <string.h>
   #include "zoomjoystrong.tab.h"
+  #include "zoomjoystrong.h"
   void white_space(char* lex);
 %}
 
@@ -29,10 +30,6 @@
  * The given keyword or type. If white space is found then a check is
  * made for the new line to advance yylineno. 
  *********************************************************************/
-int main(int argc, char** argv){
-  yylex();
-  return 0;
-}
 
 /**********************************************************************
  * Looks at a white space char and checks if it is a new line. If it 
