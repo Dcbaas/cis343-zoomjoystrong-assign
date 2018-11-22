@@ -5,7 +5,8 @@
   #include "zoomjoystrong.h"
   void yyerror(const char* err);
   extern int yylex();
-  extern int yyparse();
+//  extern int yyparse();
+  extern FILE* yyin;
 %}
 
 %union{
@@ -55,6 +56,7 @@ set_color:  SET_COLOR INT INT INT             {  }
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
+  
   yyparse();
   
 }

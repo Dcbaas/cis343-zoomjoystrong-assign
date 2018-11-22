@@ -7,6 +7,7 @@
 %}
 
 %option yylineno
+%option noyywrap 
 
 %%
 (END)                       { return END; }
