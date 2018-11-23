@@ -11,6 +11,7 @@
   void point_check(int x, int y);
   void circle_check(int x, int y, int r);
   void rectangle_check(int x, int y, int w, int h);
+  void color_check(int c1, int c2, int c3);
   int checkX(int x);
   int checkY(int y);
   extern int yylex();
@@ -33,8 +34,8 @@
 %token <fVal> FLOAT
 %%
 
-program:  statement_list END;
-
+program:  statement_list END
+       ;
 statement_list: statement
               | statement statement_list
               ;
@@ -44,19 +45,18 @@ statement:  line
          |  rectangle
          |  set_color
          ;
-line: LINE INT INT INT INT END_STATEMENT                    { printf("line cmd\n"); }
-    | LINE FLOAT FLOAT FLOAT FLOAT END_STATEMENT            { printf("line cmd\n"); }
+line: LINE INT INT INT INT END_STATEMENT                    { line_check($2, $3, $4, $5); }
     ;
-point:  POINT INT INT END_STATEMENT                         { printf("point cmd\n"); }
+point:  POINT INT INT END_STATEMENT                         { point_check($2, $3); }
      |  POINT FLOAT FLOAT END_STATEMENT                     { printf("point cmd\n"); }
      ;
-circle: CIRCLE INT INT INT END_STATEMENT                    { printf("circle cmd\n"); }
+circle: CIRCLE INT INT INT END_STATEMENT                    { circle_check($2, $3, $4); }
       | CIRCLE FLOAT FLOAT FLOAT END_STATEMENT              { printf("circle cmd\n"); }
       ;
-rectangle:  RECTANGLE INT INT INT INT END_STATEMENT         { printf("rect cmd\n"); }
+rectangle:  RECTANGLE INT INT INT INT END_STATEMENT         { rectangle_check($2, $3, $4, $5); }
          |  RECTANGLE FLOAT FLOAT FLOAT FLOAT END_STATEMENT { printf("rect cmd\n"); }
          ;
-set_color:  SET_COLOR INT INT INT END_STATEMENT             { printf("color cmd\n");  }
+set_color:  SET_COLOR INT INT INT END_STATEMENT             { color_check($2, $3, $4); }
 
 %%
 
@@ -76,9 +76,13 @@ int main(int argc, char** argv){
     return 1;
   }
 
+  setup();
   do{
     yyparse();
   }while(!feof(yyin));
+
+  getc(stdin);
+  finish();
   
   return 0;
 }
@@ -170,6 +174,18 @@ void rectangle_check(int x, int y, int w, int h){
   }
   else{
     yyerror("Starting coordinates are out of bounds");
+  }
+}
+
+void color_check(int c1, int c2, int c3){ 
+  int colors[3] = {c1, c2, c3};
+  for(int i = 0; i < 3; ++i){
+    if(colors[i] < 0 || colors[i] > 255){
+      set_color(c1, c2, c3);
+    }
+    else{
+      yyerror("Parameters for colors were invalid");
+    }
   }
 }
 
