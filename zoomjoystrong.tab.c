@@ -1643,7 +1643,10 @@ int main(int argc, char** argv){
     yyparse();
   }while(!feof(yyin));
 
+  printf("Press any key to exit"); 
   getc(stdin);
+
+  finish();
   
   return 0;
 }
@@ -1739,14 +1742,18 @@ void rectangle_check(int x, int y, int w, int h){
 }
 
 void color_check(int c1, int c2, int c3){ 
+  int failed = 0;
   int colors[3] = {c1, c2, c3};
   for(int i = 0; i < 3; ++i){
-    if(colors[i] < 0 || colors[i] > 255){
-      set_color(c1, c2, c3);
+    if(!(colors[i] >= 0 && colors[i] <= 255)){
+     failed = 1; 
     }
-    else{
-      yyerror("Parameters for colors were invalid");
-    }
+  }
+  if(!failed){
+    set_color(c1,c2,c3);
+  }
+  else{
+    yyerror("The color parameters were invalid");
   }
 }
 
