@@ -10,7 +10,7 @@
 %option noyywrap 
 
 %%
-(END)                       { return END; }
+(END|end)                       { return END; }
 ;                           { return END_STATEMENT; } 
 (POINT|point)               { return POINT; }
 (LINE|line)                 { return LINE; }

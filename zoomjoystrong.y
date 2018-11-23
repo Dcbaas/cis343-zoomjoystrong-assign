@@ -35,19 +35,19 @@ statement:  line
          |  rectangle
          |  set_color
          ;
-line: LINE INT INT INT INT                    { printf("line cmd"); }
-    | LINE FLOAT FLOAT FLOAT FLOAT            { printf("line cmd"); }
+line: LINE INT INT INT INT END_STATEMENT                    { printf("line cmd\n"); }
+    | LINE FLOAT FLOAT FLOAT FLOAT END_STATEMENT            { printf("line cmd\n"); }
     ;
-point:  POINT INT INT                         { printf("point cmd"); }
-     |  POINT FLOAT FLOAT                     { printf("point cmd"); }
+point:  POINT INT INT END_STATEMENT                         { printf("point cmd\n"); }
+     |  POINT FLOAT FLOAT END_STATEMENT                     { printf("point cmd\n"); }
      ;
-circle: CIRCLE INT INT INT                    { printf("circle cmd"); }
-      | CIRCLE FLOAT FLOAT FLOAT              { printf("circle cmd"); }
+circle: CIRCLE INT INT INT END_STATEMENT                    { printf("circle cmd\n"); }
+      | CIRCLE FLOAT FLOAT FLOAT END_STATEMENT              { printf("circle cmd\n"); }
       ;
-rectangle:  RECTANGLE INT INT INT INT         { printf("color cmd"); }
-         |  RECTANGLE FLOAT FLOAT FLOAT FLOAT { printf("color cmd"); }
+rectangle:  RECTANGLE INT INT INT INT END_STATEMENT         { printf("rect cmd\n"); }
+         |  RECTANGLE FLOAT FLOAT FLOAT FLOAT END_STATEMENT { printf("rect cmd\n"); }
          ;
-set_color:  SET_COLOR INT INT INT             {  }
+set_color:  SET_COLOR INT INT INT END_STATEMENT             { printf("color cmd\n");  }
 
 %%
 
@@ -57,19 +57,19 @@ set_color:  SET_COLOR INT INT INT             {  }
 int main(int argc, char** argv){
   if(argc != 2){
     yyerror("./zsj <filename>");
+    return 1;
   }
 
   yyin = fopen(argv[1], "r"); 
   if(!yyin){
     fclose(yyin);
     yyerror("Error Opening file");
+    return 1;
   }
 
-  //This while loop is a modified example I found at 
-  //https://github.com/meyerd/flex-bison-example/blob/master/calc.y
-  while(!feof(yyin)){
+  do{
     yyparse();
-  }
+  }while(!feof(yyin));
   
   return 0;
 }
@@ -77,5 +77,4 @@ int main(int argc, char** argv){
 //This yyerror function is a
 void yyerror(const char* err){
   fprintf(stderr, "ERROR! %s\n", err);
-  exit(1);
 }
