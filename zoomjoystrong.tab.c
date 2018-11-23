@@ -100,7 +100,6 @@
   #include "zoomjoystrong.h"
   void yyerror(const char* err);
   extern int yylex();
-//  extern int yyparse();
   extern FILE* yyin;
 
 
@@ -124,13 +123,13 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 12 "zoomjoystrong.y"
+#line 11 "zoomjoystrong.y"
 {
   int iVal;
   float fVal;
 }
 /* Line 193 of yacc.c.  */
-#line 134 "zoomjoystrong.tab.c"
+#line 133 "zoomjoystrong.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -143,7 +142,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 147 "zoomjoystrong.tab.c"
+#line 146 "zoomjoystrong.tab.c"
 
 #ifdef short
 # undef short
@@ -432,8 +431,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    30,    31,    33,    34,    35,    36,    37,
-      39,    40,    42,    43,    45,    46,    48,    49,    51
+       0,    27,    27,    29,    30,    32,    33,    34,    35,    36,
+      38,    39,    41,    42,    44,    45,    47,    48,    50
 };
 #endif
 
@@ -1355,53 +1354,53 @@ yyreduce:
   switch (yyn)
     {
         case 10:
-#line 39 "zoomjoystrong.y"
+#line 38 "zoomjoystrong.y"
     { printf("line cmd"); ;}
     break;
 
   case 11:
-#line 40 "zoomjoystrong.y"
+#line 39 "zoomjoystrong.y"
     { printf("line cmd"); ;}
     break;
 
   case 12:
-#line 42 "zoomjoystrong.y"
+#line 41 "zoomjoystrong.y"
     { printf("point cmd"); ;}
     break;
 
   case 13:
-#line 43 "zoomjoystrong.y"
+#line 42 "zoomjoystrong.y"
     { printf("point cmd"); ;}
     break;
 
   case 14:
-#line 45 "zoomjoystrong.y"
+#line 44 "zoomjoystrong.y"
     { printf("circle cmd"); ;}
     break;
 
   case 15:
-#line 46 "zoomjoystrong.y"
+#line 45 "zoomjoystrong.y"
     { printf("circle cmd"); ;}
     break;
 
   case 16:
-#line 48 "zoomjoystrong.y"
+#line 47 "zoomjoystrong.y"
     { printf("color cmd"); ;}
     break;
 
   case 17:
-#line 49 "zoomjoystrong.y"
+#line 48 "zoomjoystrong.y"
     { printf("color cmd"); ;}
     break;
 
   case 18:
-#line 51 "zoomjoystrong.y"
+#line 50 "zoomjoystrong.y"
     {  ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1405 "zoomjoystrong.tab.c"
+#line 1404 "zoomjoystrong.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1615,18 +1614,35 @@ yyreturn:
 }
 
 
-#line 53 "zoomjoystrong.y"
+#line 52 "zoomjoystrong.y"
 
 
 //I was unsure if the main function was supposed to go here or in the lex file. I checked 
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
+  if(argc != 2){
+    yyerror("./zsj <filename>");
+  }
+
+  yyin = fopen(argv[1], "r"); 
+  if(!yyin){
+    fclose(yyin);
+    yyerror("Error Opening file");
+  }
+
+  //This while loop is a modified example I found at 
+  //https://github.com/meyerd/flex-bison-example/blob/master/calc.y
+  while(!feof(yyin)){
+    yyparse();
+  }
   
-  yyparse();
-  
+  return 0;
 }
+
+//This yyerror function is a
 void yyerror(const char* err){
   fprintf(stderr, "ERROR! %s\n", err);
+  exit(1);
 }
 

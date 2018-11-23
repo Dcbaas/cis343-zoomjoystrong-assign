@@ -5,7 +5,6 @@
   #include "zoomjoystrong.h"
   void yyerror(const char* err);
   extern int yylex();
-//  extern int yyparse();
   extern FILE* yyin;
 %}
 
@@ -56,10 +55,27 @@ set_color:  SET_COLOR INT INT INT             {  }
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
 int main(int argc, char** argv){
+  if(argc != 2){
+    yyerror("./zsj <filename>");
+  }
+
+  yyin = fopen(argv[1], "r"); 
+  if(!yyin){
+    fclose(yyin);
+    yyerror("Error Opening file");
+  }
+
+  //This while loop is a modified example I found at 
+  //https://github.com/meyerd/flex-bison-example/blob/master/calc.y
+  while(!feof(yyin)){
+    yyparse();
+  }
   
-  yyparse();
-  
+  return 0;
 }
+
+//This yyerror function is a
 void yyerror(const char* err){
   fprintf(stderr, "ERROR! %s\n", err);
+  exit(1);
 }
