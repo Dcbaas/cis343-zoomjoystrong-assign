@@ -3,7 +3,16 @@
   #include <stdlib.h>
   #include <errno.h>
   #include "zoomjoystrong.h"
+
+  #define TRUE 1
+  #define FALSE 0
   void yyerror(const char* err);
+  void line_check(int x1, int y1, int x2 ,int y2);
+  void point_check(int x, int y);
+  void circle_check(int x, int y, int r);
+  void rectangle_check(int x, int y, int w, int h);
+  int checkX(int x);
+  int checkY(int y);
   extern int yylex();
   extern FILE* yyin;
 %}
@@ -77,4 +86,113 @@ int main(int argc, char** argv){
 //This yyerror function is a
 void yyerror(const char* err){
   fprintf(stderr, "ERROR! %s\n", err);
+}
+
+/**********************************************************************
+ * Checks the input for the line and ensures that they are within the
+ * correct bounds if they are not then an error is sent to yyerror 
+ * and the line isn't drawn.
+ * Param: x1 the first x coordinate.
+ * Param: y1 the first y coordinate.
+ * Param: x2 the second x coordinate.
+ * Param: y2 The second y coordinate.
+ *********************************************************************/
+void line_check(int x1, int y1, int x2 ,int y2){
+  int failed = 0;
+  int xs[2] = { x1, x2 };
+  int ys[2] = { y1, y2 };
+  //check the x and y vals in the loop
+  for(int i = 0; i < 2; ++i){
+    if(!checkX(xs[i]) || !checkY(ys[i])){
+      failed = 1;
+    }
+  }
+  //Perform the draw if the failure was not triggered
+  if(!failed){
+    line(x1, y1, x2, y2);
+  }
+  else{
+    yyerror("Parameters for line were out of bounds\n");
+  }
+}
+
+/**********************************************************************
+ * Checks the inputs for a point change and and verifies that they fit
+ * within the correct bounds. If they don't then an error is printed 
+ * and the point isn't displayed.
+ * Param: x The x coordinate
+ * Param: y The y coordinate
+ *********************************************************************/
+void point_check(int x, int y){
+  if(checkX(x) && checkY(y)){
+    point(x,y);
+  }
+  else{
+    yyerror("Parameters for point were out of bounds\n");
+  }
+}
+
+/**********************************************************************
+ * Checks to see if the inputs for the circle were correct. If they 
+ * were not then an error is printed and the circle isn't drawn. For 
+ * the radius, the checkY function is used to verify as the max value
+ * for the radius can only be the height of the screen.
+ * Param x The x coordinate being checked.
+ * Param y The y coordinate being checked.
+ * Param r The radius being checked.
+ *********************************************************************/
+void circle_check(int x, int y, int r){
+  if(checkX(x) && checkY(y) && checkY(r)){
+    circle(x, y, r);
+  }
+  else{
+    yyerror("Parameters for circle were out of bounds");
+  }
+}
+
+/**********************************************************************
+ * Checks to see if the rectangle inputs are corrects. if not, then
+ * an error is printed out and the rectangle is not displayed.
+ *
+ * Param x The x coordinate being validated
+ * Param y They y coordinate being validated.
+ * Param w The width being validated.
+ * Param h The height being validated.
+ *********************************************************************/
+void rectangle_check(int x, int y, int w, int h){
+  if(checkX(x) && checkY(y)){
+    if(checkX(x + w) && checkY(y + h)){
+      rectangle(x, y, w, h);
+    }
+    else{
+      yyerror("The Rectangle goes off the screen.");
+    }
+  }
+  else{
+    yyerror("Starting coordinates are out of bounds");
+  }
+}
+
+/**********************************************************************
+ * Checks an x coordinate to see if it is valid.
+ * Param: x The x coordinate being checked
+ * Returns: True if valid False otherwise.
+ *********************************************************************/
+int checkX(int x){
+  if(x < 0 || x > WIDTH){
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**********************************************************************
+ * Checks a y coordinate to see if it is valid.
+ * Param y The y coordinate being checked.
+ * Returns: True if its valid. False otherwise.
+ *********************************************************************/
+int checkY(int y){
+  if(y < 0 || y > HEIGHT){
+    return FALSE;
+  }
+  return TRUE;
 }
