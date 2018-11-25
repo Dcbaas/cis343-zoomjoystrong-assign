@@ -460,3 +460,6 @@ ASALocalRun/
 # End of https://www.gitignore.io/api/c,vim,flex,macos,visualstudio
 #
 zjs
+
+*.tab.h
+*.tab.c

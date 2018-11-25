@@ -34,7 +34,7 @@
 %token <fVal> FLOAT
 %%
 
-program:  statement_list END
+program:  statement_list end 
        ;
 statement_list: statement
               | statement statement_list
@@ -57,12 +57,20 @@ rectangle:  RECTANGLE INT INT INT INT END_STATEMENT         { rectangle_check($2
          |  RECTANGLE FLOAT FLOAT FLOAT FLOAT END_STATEMENT { printf("rect cmd\n"); }
          ;
 set_color:  SET_COLOR INT INT INT END_STATEMENT             { color_check($2, $3, $4); }
-
+         ;
+end:  END                                                   { return 0; }
+   ;
 %%
 
 //I was unsure if the main function was supposed to go here or in the lex file. I checked 
 //Jarreds code to make sure I was correct after I didn't get an answer from you on slack 
 //immediatly. I don't however follow strictly what he put in the main.
+//I also refrenced Jarreds code for the end statement in the grammer definition.
+//I kept getting an error at the end of the yyparse. I knew that yyparse
+//returned 0 upon valid parsing and 1 if there was an error. I guess
+//it returns a 0 or one for everything it parses and that the 
+//return 0 has to be explicitly defined. Again I did ask you about it but 
+//I recived no response during the break.
 int main(int argc, char** argv){
   if(argc != 2){
     yyerror("./zsj <filename>");
