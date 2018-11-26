@@ -1,6 +1,6 @@
 %{
   #include <stdio.h>
-  #include <string.h>
+  #include <stdlib.h>
   #include "zoomjoystrong.tab.h"
   #include "zoomjoystrong.h"
   void white_space(char* lex);
@@ -17,7 +17,7 @@
 (CIRCLE|circle)             { return CIRCLE; }
 (RECTANGLE|rectangle)       { return RECTANGLE; }
 (SET_COLOR|set_color)       { return SET_COLOR; }
-[0-9]+                      { return INT; }
+[0-9]+                      { yylval.iVal = atoi(yytext); return INT; }
 [0-9]+\.[0-9]+              { return FLOAT; }
 -[0-9]                      { printf("ERROR: NEGETIVE NUMBER ON LINE %d\n", yylineno); }
 [\n|\t| ]+                 ; 

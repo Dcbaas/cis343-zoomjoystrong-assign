@@ -526,7 +526,7 @@ char *yytext;
 #line 1 "zoomjoystrong.lex"
 #line 2 "zoomjoystrong.lex"
   #include <stdio.h>
-  #include <string.h>
+  #include <stdlib.h>
   #include "zoomjoystrong.tab.h"
   #include "zoomjoystrong.h"
   void white_space(char* lex);
@@ -845,7 +845,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 20 "zoomjoystrong.lex"
-{ return INT; }
+{ yylval.iVal = atoi(yytext); return INT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
