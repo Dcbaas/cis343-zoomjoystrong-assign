@@ -1,11 +1,11 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
-  #include <errno.h>
   #include "zoomjoystrong.h"
 
   #define TRUE 1
   #define FALSE 0
+
   void yyerror(const char* err);
   void line_check(int x1, int y1, int x2 ,int y2);
   void point_check(int x, int y);
@@ -14,6 +14,10 @@
   void color_check(int c1, int c2, int c3);
   int checkX(int x);
   int checkY(int y);
+  //I didn't see the example code on bb during the thanksgiving break.
+  //Therefore I look at other examples. I found the yylex and yyin 
+  //usage from the following github.
+  //https://github.com/meyerd/flex-bison-example
   extern int yylex();
   extern FILE* yyin;
 %}
@@ -48,13 +52,10 @@ statement:  line
 line: LINE INT INT INT INT END_STATEMENT                    { line_check($2, $3, $4, $5); }
     ;
 point:  POINT INT INT END_STATEMENT                         { point_check($2, $3); }
-     |  POINT FLOAT FLOAT END_STATEMENT                     { printf("point cmd\n"); }
      ;
 circle: CIRCLE INT INT INT END_STATEMENT                    { circle_check($2, $3, $4); }
-      | CIRCLE FLOAT FLOAT FLOAT END_STATEMENT              { printf("circle cmd\n"); }
       ;
 rectangle:  RECTANGLE INT INT INT INT END_STATEMENT         { rectangle_check($2, $3, $4, $5); }
-         |  RECTANGLE FLOAT FLOAT FLOAT FLOAT END_STATEMENT { printf("rect cmd\n"); }
          ;
 set_color:  SET_COLOR INT INT INT END_STATEMENT             { color_check($2, $3, $4); }
          ;
@@ -71,12 +72,26 @@ end:  END                                                   { return 0; }
 //it returns a 0 or one for everything it parses and that the 
 //return 0 has to be explicitly defined. Again I did ask you about it but 
 //I recived no response during the break.
+
+/**********************************************************************
+ * The main fuction drives the parser by checking that a file has 
+ * been called for and that the file exist. If both those conditons 
+ * are met, then yyparse is called and all of the grammer fucntions 
+ * are called as needed to draw the shape. Once the parsing is done,
+ * The program holds and waits for user input to exit the program.
+ * CMD LINE ARGS
+ * argv[1] filename: The name of the file being parsed
+ *
+ * returns: 0 on success 1 on failure with the file or cmd line args.
+ ********************************************************************/
 int main(int argc, char** argv){
+  //Verify args
   if(argc != 2){
     yyerror("./zsj <filename>");
     return 1;
   }
 
+  //Open and verify yyin.
   yyin = fopen(argv[1], "r"); 
   if(!yyin){
     fclose(yyin);
@@ -84,10 +99,10 @@ int main(int argc, char** argv){
     return 1;
   }
 
+
+  //Parse the file and display
   setup();
-  do{
-    yyparse();
-  }while(!feof(yyin));
+  yyparse();
 
   printf("Press any key to exit"); 
   getc(stdin);
